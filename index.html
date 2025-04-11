@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100 font-sans p-6">
+        <div class="max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-2xl font-bold mb-4 text-center">Honeybelle Cafee</h2>
+            <div id="menu-container" class="space-y-2"></div>
+            <div class="mt-6 text-lg font-semibold text-center">
+                Total: ₱<span id="total">0.00</span>
+            </div>
+        </div>
+
+        <script>
+            const menu = [
+                { productname: "milktea", price: 39 },
+                { productname: "caramel macchiato", price: 39 },
+                { productname: "americano", price: 39 },
+                { productname: "beerbrand", price: 39 }
+            ];
+
+            const menuContainer = document.getElementById("menu-container");
+            const totalSpan = document.getElementById("total");
+
+            const checkboxes = [];
+
+            for (let index in menu) {
+                const item = menu[index];
+
+                const wrapper = document.createElement("div");
+                wrapper.className = "flex items-center space-x-2";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.dataset.price = item.price;
+                checkbox.className = "w-4 h-4";
+
+                const label = document.createElement("label");
+                label.textContent = ` ${item.productname} - ₱${item.price}`;
+                label.className = "text-gray-700";
+
+                wrapper.appendChild(checkbox);
+                wrapper.appendChild(label);
+                menuContainer.appendChild(wrapper);
+
+                checkboxes.push(checkbox);
+                checkbox.addEventListener("change", updateTotal);
+            }
+
+            function updateTotal() {
+                let total = 0;
+                for (let i in checkboxes) {
+                    const cb = checkboxes[i];
+                    if (cb.checked) {
+                        total += parseFloat(cb.dataset.price);
+                    }
+                }
+                totalSpan.textContent = total.toFixed(2);
+            }
+        </script>
+    </body>
+</html>
